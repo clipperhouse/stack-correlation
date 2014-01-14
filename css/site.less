@@ -1,0 +1,125 @@
+body{
+  margin: 12px;
+  -webkit-text-size-adjust: 100%;
+}
+a {
+  color: #0088cc;
+  text-decoration: none;
+}
+a:hover {
+  color: #0088cc;
+  text-decoration: none;
+}
+a.clear{
+  display: inline-block;
+  padding: 5px 6px;
+  position: relative;
+  top: -3px;
+  cursor: pointer;
+}
+p {
+  width: 65%;
+  max-width: 600px;
+}
+div.navbar{
+  display: none;
+}
+#site-name {
+  padding: 0 0 0 32px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 22px 22px;
+  background-image: url(http://cdn.sstatic.net/stackoverflow/img/favicon.ico);
+}
+#right {
+  float: right;
+  width: 310px;
+  margin-left: 30px;
+}
+#sites {
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: none;
+  margin: 0 0 24px 0;
+}
+#right > p#se {
+  background-image: url(http://cdn.sstatic.net/stackexchange/img/favicon.ico);
+}
+#sites > li, #right > p#se {
+  list-style: none;
+  padding: 6px 6px 6px 28px;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-position: 6px center;
+}
+#sites > li.selected {
+  display: block;
+  background-color:#eee;
+}
+#sites:hover > li:hover {
+  background-color:#eee;
+}
+#tag-correlations {
+  border-collapse: collapse;
+}
+#tag-correlations tr td {
+  border: 1px solid #ccc;
+}
+#tag-correlations tr > td:first-child {
+  width:172px;
+}
+#tag-correlations tr > td > a {
+  color: inherit;
+  display: block;
+  padding: 4px 6px;
+  padding-right:21px;
+}
+#tag-correlations tr > td > a:hover {
+    color: #0088cc;
+    opacity: 1;
+    -moz-opacity: 1;
+}
+#tag-correlations tr > td.c {
+  text-align: right;
+  padding: 4px 6px;
+  padding-left:24px;
+  width: 25px;
+}
+#tag-correlations tr > td.q {
+  border:0;
+  padding-left:12px;
+  opacity: 0;
+  -moz-opacity: 0;
+  -webkit-transition: opacity 0.1s;
+  transition: opacity 0.1s;
+}
+#tag-correlations tr > td.q > a {
+  background: url(../img/arrow.png) right center no-repeat;
+  padding-right: 9px;
+}
+#tag-correlations tr:hover > td.q {
+  opacity: 1;
+  -moz-opacity: 1;
+}
+span.deleteicon {
+  position: relative;
+}
+span.deleteicon a {
+  position: absolute;
+  display: block;
+  top: -2px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  background: url('http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=4') 0 -690px;
+  cursor: pointer;
+  opacity: 0.4;
+  -webkit-transition:opacity 0.1s linear;
+  transition:opacity 0.1s linear;
+}
+span.deleteicon a:hover {
+  opacity: 1;
+}
+span.deleteicon input {
+  padding-right: 16px;
+}
