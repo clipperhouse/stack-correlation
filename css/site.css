@@ -14,7 +14,7 @@ div.navbar{display:none;}
 #tag-correlations{border-collapse:collapse;}
 #tag-correlations tr td{border:1px solid #ccc;}
 #tag-correlations tr>td:first-child{width:172px;}
-#tag-correlations tr>td>a{color:inherit;display:block;padding:4px 6px;padding-right:21px;}
+#tag-correlations tr>td>a{color:inherit;display:inline-block;padding:4px 6px;padding-right:21px;}
 #tag-correlations tr>td>a:hover{color:#0088cc;opacity:1;-moz-opacity:1;}
 #tag-correlations tr>td.c{text-align:right;padding:4px 6px;padding-left:24px;width:25px;}
 #tag-correlations tr>td.q{border:0;padding-left:12px;opacity:0;-moz-opacity:0;-webkit-transition:opacity 0.1s;transition:opacity 0.1s;}
@@ -24,3 +24,4 @@ span.deleteicon{position:relative;}
 span.deleteicon a{position:absolute;display:block;top:-2px;right:0px;width:20px;height:20px;background:url('http://cdn.sstatic.net/stackoverflow/img/sprites.png?v=4') 0 -690px;cursor:pointer;opacity:0.4;-webkit-transition:opacity 0.1s linear;transition:opacity 0.1s linear;}
 span.deleteicon a:hover{opacity:1;}
 span.deleteicon input{padding-right:16px;}
+a#github {background-image: url(https://github.com/favicon.ico);background-repeat: no-repeat;background-position: left center;display: inline-block;background-size: 32px 32px;height: 32px;line-height: 32px;padding-left: 40px;}

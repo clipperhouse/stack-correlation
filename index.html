@@ -36,7 +36,11 @@
     Note that correlations are asymmetric:
       e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
     </p>
-    <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side). Source is <a href="https://github.com/clipperhouse/stack-correlation">here</a>.</p>
+    <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side).</p>
+
+    <p>
+      <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a>
+    </p>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
@@ -48,7 +52,7 @@
     <tr>
       <td><a title=" view correlations for “{{tag}}” " href="#{{site}}/{{tag}}">{{tag}}</a></td>
       <td class="c">{{correlation}}</td>
-      <td class="q"><a target="_blank" title=" view questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}">view questions</a></td>
+      <td class="q"><a target="_blank" title=" view questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}">[ {{tag_current}} + {{tag}} ] questions</a></td>
     </tr>
     {{/items}}
     </script>
