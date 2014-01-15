@@ -81,12 +81,17 @@ $ ->
   $(document).on 'click', '#sites > li', ->
     pushState $(this).data("site")
 
-  window.onpopstate = (event) ->
+  $(document).on 'click', 'a.correlation', ->
+    setTimeout pop, 1
+
+  window.onpopstate = pop
+
+  pop = (event) ->
     hash = location.hash.replace /^#+/, ''
     [api_site_parameter, tag] = hash.split '/'
     site = getsite api_site_parameter
     changeState site, tag
-
+    
   pushState = (site, tag) ->
     hash = ""
     hash += site.api_site_parameter if site?
@@ -95,12 +100,15 @@ $ ->
     history.pushState { hash: hash }, null, hash if history.pushState?
     changeState site, tag
 
-  changeState = (site, tag) ->    
-    site_current = site or getsite("stackoverflow")
+  changeState = (site, tag) ->
+    site_current = site
     site_name.html site_current.name
     site_name.css "background-image", "url(#{site_current.favicon_url})"
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected")
     tag_input.val(tag).focus().select()
     gettag site, tag
-
-
+  
+  setTimeout ->
+    pushState(getsite("stackoverflow")) if location.hash.length <= 1
+    pop()
+  , 400
