@@ -1,76 +1,70 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Stack Exchange tag correlations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple tool for exploring the associations between tags on Stack Exchange sites, such as Stack Overflow.">
     <meta name="author" content="Matt Sherman">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">    
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
     <link href="css/site.min.css" rel="stylesheet">
     <link href="css/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" />
     <link rel="shortcut icon" href="//cdn.sstatic.net/stackexchange/img/favicon.ico">
-  </head>
-
-  <body>
+</head>
+<body>
     <div id="right">
-      <p id="se"><strong>Select a Stack Exchange site:</strong></p>
-      <ul id="sites"></ul>
+        <p id="se"><strong>Select a Stack Exchange site:</strong></p>
+        <ul id="sites"></ul>
     </div>
     <h1><span id="site-name">Stack Overflow</span></h1>
     <br />
     <p>
-      <label>Begin typing a tag:</label>
-      <input type="text" name="tag" id="tag" class="deletable" />
-      <input type="hidden" name="site" id="site" />
+        <label>Begin typing a tag:</label>
+        <input type="text" name="tag" id="tag" class="deletable" />
+        <input type="hidden" name="site" id="site" />
     </p>
-
     <table id="tag-correlations"><tbody></tbody></table>
     <br />
     <h3>
         Tag Correlations
     </h3>
     <p>
-      …where “correlation” is coincidence of tags on questions. A correlation of 0.38 means that the latter tag appears on 38% of questions which include the former.
+        …where “correlation” is coincidence of tags on questions. A correlation of 0.38 means that the latter tag appears on 38% of questions which include the former.
     </p>
     <p>
-    Note that correlations are asymmetric:
-      e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
+        Note that correlations are asymmetric:
+        e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
     </p>
     <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side).</p>
-
     <p>
-      <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a>
+        <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a>
     </p>
-
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/mustache.min.js"></script>
     <script src="js/script.min.js"></script>
-
     <script id="correlations-tmpl" type="text/template">
-    {{#items}}
-    <tr>
-      <td><a class="correlation" title=" view correlations for “{{tag}}” " href="#{{site}}/{{tag}}">{{tag}}</a></td>
-      <td class="c">{{correlation}}</td>
-      <td class="q"><a target="_blank" title=" view questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}">[ {{tag_current}} + {{tag}} ] questions</a></td>
-    </tr>
-    {{/items}}
+        {{#items}}
+        <tr>
+            <td><a class="correlation" title=" view correlations for “{{tag}}” " href="#{{site}}/{{tag}}">{{tag}}</a></td>
+            <td class="c">{{correlation}}</td>
+            <td class="q"><a target="_blank" title=" view questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}">[ {{tag_current}} + {{tag}} ] questions</a></td>
+        </tr>
+        {{/items}}
     </script>
-
     <script type="text/javascript">
 
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-8534189-6']);
-      _gaq.push(['_trackPageview']);
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-8534189-6']);
+        _gaq.push(['_trackPageview']);
 
-      (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ga, s);
-      })();
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
 
     </script>
-  </body>
+</body>
 </html>
