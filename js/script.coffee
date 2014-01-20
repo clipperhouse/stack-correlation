@@ -84,6 +84,9 @@ $ ->
   $(document).on 'click', 'a.correlation', ->
     setTimeout pop, 1
 
+  $(document).on 'click', 'a[href^="#"]', ->
+    setTimeout pop, 1
+
   window.onpopstate = pop
 
   pop = (event) ->

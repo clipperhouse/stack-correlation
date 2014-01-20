@@ -159,6 +159,9 @@ $(function() {
   $(document).on('click', 'a.correlation', function() {
     return setTimeout(pop, 1);
   });
+  $(document).on('click', 'a[href^="#"]', function() {
+    return setTimeout(pop, 1);
+  });
   window.onpopstate = pop;
   pop = function(event) {
     var api_site_parameter, hash, site, tag, _ref;
