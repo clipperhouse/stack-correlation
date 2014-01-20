@@ -22,7 +22,7 @@ $ ->
 
   urls = 
     api_sites: (page) -> "http://api.stackexchange.com/2.1/sites?page=#{page}&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF&key=#{api_key}"
-    api_tags: (site, tag) -> "http://api.stackexchange.com/2.1/tags?pagesize=8&order=desc&sort=popular&inname=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!*M27MxijjqVg4jGo&key=#{api_key}"
+    api_tags: (site, tag) -> "http://api.stackexchange.com/2.1/tags?pagesize=16&order=desc&sort=popular&inname=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!*M27MxijjqVg4jGo&key=#{api_key}"
     api_tag_count: (site, tag) -> "http://api.stackexchange.com/2.1/questions?order=desc&sort=activity&tagged=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!LQa0AXyWeCS0eBBhfz)UnE&key=#{api_key}"
     api_tags_related: (site, tag) -> "http://api.stackexchange.com/2.1/tags/#{encodeURIComponent(tag)}/related?site=#{site.api_site_parameter}&key=#{api_key}&filter=!n9Z4Y*b7KJ"
 
