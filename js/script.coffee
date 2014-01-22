@@ -87,14 +87,12 @@ $ ->
   $(document).on 'click', 'a[href^="#"]', ->
     setTimeout pop, 1
 
-  window.onpopstate = pop
-
   pop = (event) ->
     hash = location.hash.replace /^#+/, ''
     [api_site_parameter, tag] = hash.split '/'
     site = getsite api_site_parameter
     changeState site, tag
-    
+
   pushState = (site, tag) ->
     hash = ""
     hash += site.api_site_parameter if site?
@@ -110,6 +108,8 @@ $ ->
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected")
     tag_input.val(tag).focus().select()
     gettag site, tag
+
+  window.onpopstate = pop
   
   setTimeout ->
     pushState(getsite("stackoverflow")) if location.hash.length <= 1

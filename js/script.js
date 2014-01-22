@@ -162,7 +162,6 @@ $(function() {
   $(document).on('click', 'a[href^="#"]', function() {
     return setTimeout(pop, 1);
   });
-  window.onpopstate = pop;
   pop = function(event) {
     var api_site_parameter, hash, site, tag, _ref;
     hash = location.hash.replace(/^#+/, '');
@@ -197,6 +196,7 @@ $(function() {
     tag_input.val(tag).focus().select();
     return gettag(site, tag);
   };
+  window.onpopstate = pop;
   return setTimeout(function() {
     if (location.hash.length <= 1) {
       pushState(getsite("stackoverflow"));
