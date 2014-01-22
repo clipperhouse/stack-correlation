@@ -19,6 +19,7 @@ $ ->
   site_current = {}
   tag_correlations = $ "#tag-correlations > tbody"
   api_key = "zg)SFUiAw3KznQKAw)AXzQ(("
+  title = $ "title"
 
   urls = 
     api_sites: (page) -> "http://api.stackexchange.com/2.1/sites?page=#{page}&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF&key=#{api_key}"
@@ -107,6 +108,10 @@ $ ->
     site_name.css "background-image", "url(#{site_current.favicon_url})"
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected")
     tag_input.val(tag).focus().select()
+    t = 'Stack Exchange tag correlations'
+    t += ': ' + site_current.name if site_current?
+    t += ': ' + tag if tag?
+    title.text t
     gettag site, tag
 
   window.onpopstate = pop

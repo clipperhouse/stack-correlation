@@ -21,7 +21,7 @@ $.getJSONCached = function(url, callback) {
 };
 
 $(function() {
-  var api_key, changeState, getcorrelations, getmenuitem, getsite, getsites, gettag, menu, pop, pushState, round, site_current, site_name, tag_correlations, tag_count, tag_input, urls;
+  var api_key, changeState, getcorrelations, getmenuitem, getsite, getsites, gettag, menu, pop, pushState, round, site_current, site_name, tag_correlations, tag_count, tag_input, title, urls;
   menu = $("#sites");
   tag_count = $("#tag-count");
   site_name = $("#site-name");
@@ -29,6 +29,7 @@ $(function() {
   site_current = {};
   tag_correlations = $("#tag-correlations > tbody");
   api_key = "zg)SFUiAw3KznQKAw)AXzQ((";
+  title = $("title");
   urls = {
     api_sites: function(page) {
       return "http://api.stackexchange.com/2.1/sites?page=" + page + "&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF&key=" + api_key;
@@ -189,11 +190,20 @@ $(function() {
     return changeState(site, tag);
   };
   changeState = function(site, tag) {
+    var t;
     site_current = site;
     site_name.html(site_current.name);
     site_name.css("background-image", "url(" + site_current.favicon_url + ")");
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected");
     tag_input.val(tag).focus().select();
+    t = 'Stack Exchange tag correlations';
+    if (site_current != null) {
+      t += ': ' + site_current.name;
+    }
+    if (tag != null) {
+      t += ': ' + tag;
+    }
+    title.text(t);
     return gettag(site, tag);
   };
   window.onpopstate = pop;
