@@ -97,6 +97,7 @@ $(function() {
               tag_current: tag,
               tag: item.name,
               site: site_current.api_site_parameter,
+              favicon: site.favicon_url,
               url: site.site_url + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),
               correlation: round(item.count / total, 2)
             });
@@ -160,9 +161,6 @@ $(function() {
   $(document).on('click', 'a.correlation', function() {
     return setTimeout(pop, 1);
   });
-  $(document).on('click', 'a[href^="#"]', function() {
-    return setTimeout(pop, 1);
-  });
   pop = function(event) {
     var api_site_parameter, hash, site, tag, _ref;
     hash = location.hash.replace(/^#+/, '');
@@ -192,7 +190,7 @@ $(function() {
   changeState = function(site, tag) {
     var t;
     site_current = site;
-    site_name.html(site_current.name);
+    site_name.html(site_current.name + ' tag correlations');
     site_name.css("background-image", "url(" + site_current.favicon_url + ")");
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected");
     tag_input.val(tag).focus().select();
@@ -211,6 +209,8 @@ $(function() {
     if (location.hash.length <= 1) {
       pushState(getsite("stackoverflow"));
     }
-    return pop();
+    if (navigator.userAgent.indexOf('Trident') > 0) {
+      return pop();
+    }
   }, 400);
 });

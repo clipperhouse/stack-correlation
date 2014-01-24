@@ -48,7 +48,7 @@ $ ->
     $.getJSONCached urls.api_tags_related(site, tag), (data) ->
       template = $("#correlations-tmpl").html()
       correlations = { items :
-        ({ tag_current: tag, tag: item.name, site: site_current.api_site_parameter, url: site.site_url + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name), correlation: round(item.count / total, 2) } for item in data.items) 
+        ({ tag_current: tag, tag: item.name, site: site_current.api_site_parameter, favicon:site.favicon_url, url: site.site_url + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name), correlation: round(item.count / total, 2) } for item in data.items) 
       }
       html = Mustache.to_html template, correlations
       tag_correlations.hide().html(html).fadeIn("fast");
@@ -85,9 +85,6 @@ $ ->
   $(document).on 'click', 'a.correlation', ->
     setTimeout pop, 1
 
-  $(document).on 'click', 'a[href^="#"]', ->
-    setTimeout pop, 1
-
   pop = (event) ->
     hash = location.hash.replace /^#+/, ''
     [api_site_parameter, tag] = hash.split '/'
@@ -104,7 +101,7 @@ $ ->
 
   changeState = (site, tag) ->
     site_current = site
-    site_name.html site_current.name
+    site_name.html site_current.name + ' tag correlations'
     site_name.css "background-image", "url(#{site_current.favicon_url})"
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected")
     tag_input.val(tag).focus().select()
@@ -118,5 +115,5 @@ $ ->
   
   setTimeout ->
     pushState(getsite("stackoverflow")) if location.hash.length <= 1
-    pop()
+    pop() if navigator.userAgent.indexOf('Trident') > 0
   , 400

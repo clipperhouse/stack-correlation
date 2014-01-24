@@ -16,29 +16,33 @@
         <p id="se"><strong>Select a Stack Exchange site:</strong></p>
         <ul id="sites"></ul>
     </div>
-    <h1><span id="site-name">Stack Overflow</span></h1>
-    <br />
-    <p>
-        <label>Begin typing a tag:</label>
-        <input type="text" name="tag" id="tag" class="deletable" />
-        <input type="hidden" name="site" id="site" />
-    </p>
-    <table id="tag-correlations"><tbody></tbody></table>
-    <br />
-    <h3>
-        Tag Correlations
-    </h3>
-    <p>
-        …where “correlation” is coincidence of tags on questions. A correlation of 0.38 means that the latter tag appears on 38% of questions which include the former.
-    </p>
-    <p>
-        Note that correlations are asymmetric:
-        e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
-    </p>
-    <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side).</p>
-    <p>
-        <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a>
-    </p>
+
+    <h1><span id="site-name"></span></h1><br />
+
+    <div id="left">
+        <p>
+            <label>Begin by typing a tag:</label>
+            <input type="text" name="tag" id="tag" class="deletable" />
+            <input type="hidden" name="site" id="site" />
+        </p>
+        <table id="tag-correlations"><tbody></tbody></table>
+        <br />
+    </div>
+
+    <div id="mid">
+        <p>
+            “Correlation” is coincidence of tags on questions. A correlation of 0.38 means that the latter tag appears on 38% of questions which include the former.
+        </p>
+        <p>
+            Note that correlations are asymmetric:
+            e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
+        </p>
+        <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side).</p>
+        <p>
+            <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a>
+        </p>
+    </div>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/mustache.min.js"></script>
@@ -46,9 +50,9 @@
     <script id="correlations-tmpl" type="text/template">
         {{#items}}
         <tr>
-            <td><a class="correlation" title=" view correlations for “{{tag}}” " href="#{{site}}/{{tag}}">{{tag}}</a></td>
+            <td><a class="correlation" title="View correlations for “{{tag}}”" href="#{{site}}/{{tag}}">{{tag}}</a></td>
             <td class="c">{{correlation}}</td>
-            <td class="q"><a target="_blank" title=" view questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}">[ {{tag_current}} + {{tag}} ] questions</a></td>
+            <td class="q"><a target="_blank" title="View questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}"><img src="{{favicon}}" /></a></td>
         </tr>
         {{/items}}
     </script>
