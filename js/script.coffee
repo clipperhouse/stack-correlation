@@ -1,6 +1,6 @@
 
 $.fn.addSiteOption = (site) ->
-  $(this).append($("<li/>").data("site", site).html(site.name).css("background-image", "url(#{site.favicon_url})"))
+  $(this).append($("<li/>").data("site", site).html(site.name).css("background-image", "url(#{site.favicon_url.replace('http:', '')})"))
 
 api_cache = {}
 
@@ -49,7 +49,7 @@ $ ->
     $.getJSONCached urls.api_tags_related(site, tag), (data) ->
       template = $("#correlations-tmpl").html()
       correlations = { items :
-        ({ tag_current: tag, tag: item.name, site: site_current.api_site_parameter, favicon:site.favicon_url, url: site.site_url + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name), correlation: round(item.count / total, 2) } for item in data.items) 
+        ({ tag_current: tag, tag: item.name, site: site_current.api_site_parameter, favicon:site.favicon_url.replace('http:', ''), url: site.site_url.replace('http:', '') + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name), correlation: round(item.count / total, 2) } for item in data.items) 
       }
       html = Mustache.to_html template, correlations
       tag_correlations.hide().html(html).fadeIn("fast");
@@ -103,7 +103,7 @@ $ ->
   changeState = (site, tag) ->
     site_current = site
     site_name.html site_current.name + ' tag correlations'
-    site_name.css "background-image", "url(#{site_current.favicon_url})"
+    site_name.css "background-image", "url(#{site_current.favicon_url.replace('http:', '')})"
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected")
     tag_input.val(tag).focus().select()
     t = 'Stack Exchange tag correlations'

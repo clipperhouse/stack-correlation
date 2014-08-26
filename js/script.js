@@ -2,7 +2,7 @@
 var api_cache;
 
 $.fn.addSiteOption = function(site) {
-  return $(this).append($("<li/>").data("site", site).html(site.name).css("background-image", "url(" + site.favicon_url + ")"));
+  return $(this).append($("<li/>").data("site", site).html(site.name).css("background-image", "url(" + (site.favicon_url.replace('http:', '')) + ")"));
 };
 
 api_cache = {};
@@ -97,8 +97,8 @@ $(function() {
               tag_current: tag,
               tag: item.name,
               site: site_current.api_site_parameter,
-              favicon: site.favicon_url,
-              url: site.site_url + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),
+              favicon: site.favicon_url.replace('http:', ''),
+              url: site.site_url.replace('http:', '') + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),
               correlation: round(item.count / total, 2)
             });
           }
@@ -191,7 +191,7 @@ $(function() {
     var t;
     site_current = site;
     site_name.html(site_current.name + ' tag correlations');
-    site_name.css("background-image", "url(" + site_current.favicon_url + ")");
+    site_name.css("background-image", "url(" + (site_current.favicon_url.replace('http:', '')) + ")");
     getmenuitem(site_current.api_site_parameter).addClass("selected").siblings().removeClass("selected");
     tag_input.val(tag).focus().select();
     t = 'Stack Exchange tag correlations';
