@@ -23,10 +23,10 @@ $ ->
   title = $ "title"
 
   urls = 
-    api_sites: (page) -> "http://api.stackexchange.com/2.2/sites?page=#{page}&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF&key=#{api_key}"
-    api_tags: (site, tag) -> "http://api.stackexchange.com/2.2/tags?pagesize=16&order=desc&sort=popular&inname=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!*M27MxijjqVg4jGo&key=#{api_key}"
-    api_tag_count: (site, tag) -> "http://api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!LQa0AXyWeCS0eBBhfz)UnE&key=#{api_key}"
-    api_tags_related: (site, tag) -> "http://api.stackexchange.com/2.2/tags/#{encodeURIComponent(tag)}/related?site=#{site.api_site_parameter}&key=#{api_key}&filter=!n9Z4Y*b7KJ"
+    api_sites: (page) -> "//api.stackexchange.com/2.2/sites?page=#{page}&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF&key=#{api_key}"
+    api_tags: (site, tag) -> "//api.stackexchange.com/2.2/tags?pagesize=16&order=desc&sort=popular&inname=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!*M27MxijjqVg4jGo&key=#{api_key}"
+    api_tag_count: (site, tag) -> "//api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=#{encodeURIComponent(tag)}&site=#{site.api_site_parameter}&filter=!LQa0AXyWeCS0eBBhfz)UnE&key=#{api_key}"
+    api_tags_related: (site, tag) -> "//api.stackexchange.com/2.2/tags/#{encodeURIComponent(tag)}/related?site=#{site.api_site_parameter}&key=#{api_key}&filter=!n9Z4Y*b7KJ"
 
   round = (num, dec) -> 
     result = (Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec)).toString()
