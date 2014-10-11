@@ -65,7 +65,7 @@ $(function() {
 
 					var a = $('<a>')
 						.attr('href', '#' + site.api_site_parameter)
-						.text(site.name)
+						.html(site.name)
 						.css('background-image', 'url(' + site.favicon_url + ')');
 
 					var li = $('<li/>')
