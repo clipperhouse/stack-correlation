@@ -6,20 +6,22 @@ body {
 a {
     color: #0088cc;
     text-decoration: none;
-}
 
-    a:hover {
-        color: #0088cc;
+    &:hover {
         text-decoration: none;
     }
+}
 
-    a.clear {
-        display: inline-block;
-        padding: 5px 6px;
-        position: relative;
-        top: -3px;
-        cursor: pointer;
-    }
+.tag {
+    color: #3e6d8e;
+    background-color: #e0eaf1;
+    padding: 4px 6px;
+    margin: 4px 0;
+    text-decoration: none;
+    line-height: 1.4;
+    white-space: nowrap;
+    display: inline-block;
+}
 
 div.navbar {
     display: none;
@@ -103,88 +105,16 @@ input[type='text'] {
 
 #tag-correlations {
     border-collapse: collapse;
+    width: 230px;
+
+    td {
+        &.c {
+            text-align: right;
+            padding: 4px 0;
+            width: 25px;
+        }
+    }
 }
-
-    #tag-correlations tr td {
-        border: 1px solid #ccc;
-    }
-
-    #tag-correlations tr > td:first-child {
-        width: 181px;
-    }
-
-    #tag-correlations tr > td > a {
-        display: inline-block;
-        padding: 4px 6px;
-        padding-right: 21px;
-    }
-
-        #tag-correlations tr > td > a:hover {
-            color: #0088cc;
-            -moz-opacity: 1;
-            opacity: 1;
-        }
-
-    #tag-correlations tr > td.c {
-        text-align: right;
-        padding: 4px 6px;
-        padding-left: 24px;
-        width: 25px;
-    }
-
-    #tag-correlations tr > td.q {
-        border: 0;
-        padding-left: 6px;
-        -moz-opacity: 0;
-        opacity: 0;
-        -webkit-transition: opacity 0.1s;
-        -moz-transition: opacity 0.1s;
-        -o-transition: opacity 0.1s;
-        transition: opacity 0.1s;
-
-        > a {
-            background: url(../img/arrow.png) right center no-repeat;
-            padding-right: 9px;
-
-            > img {
-                width: 18px;
-                height: 18px;
-            }
-        }
-    }
-
-    #tag-correlations tr:hover > td.q {
-        -moz-opacity: 1;
-        opacity: 1;
-    }
-
-span.deleteicon {
-    position: relative;
-}
-
-    span.deleteicon a {
-        position: absolute;
-        display: block;
-        top: -2px;
-        right: 0px;
-        width: 20px;
-        height: 20px;
-        background: url('//cdn.sstatic.net/stackoverflow/img/sprites.png?v=4') 0 -690px;
-        cursor: pointer;
-        opacity: 0.4;
-        -webkit-transition: opacity 0.1s linear;
-        -moz-transition: opacity 0.1s linear;
-        -o-transition: opacity 0.1s linear;
-        transition: opacity 0.1s linear;
-    }
-
-        span.deleteicon a:hover {
-            opacity: 1;
-        }
-
-    span.deleteicon input {
-        padding-right: 16px;
-    }
 
 a#github {
     background-image: url(https://github.com/favicon.ico);
