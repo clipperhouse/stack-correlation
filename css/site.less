@@ -63,19 +63,13 @@ input[type='text'] {
 
 #sites {
     border: 1px solid #ccc;
-    cursor: pointer;
     display: none;
     margin: 0 0 24px 0;
 }
 
-#right > p#se {
-    background-image: url(//cdn.sstatic.net/stackexchange/img/favicon.ico);
-}
-
-#sites > li, #right > p#se {
-    list-style: none;
-    padding: 6px 6px 6px 28px;
+.icon() {
     margin: 0;
+    padding: 6px 6px 6px 28px;
     background-repeat: no-repeat;
     background-position: 6px center;
     -moz-background-size: 16px 16px;
@@ -84,13 +78,27 @@ input[type='text'] {
     background-size: 16px 16px;
 }
 
-    #sites > li.selected {
-        display: block;
+#right > p#se {
+    .icon();
+    background-image: url(//cdn.sstatic.net/stackexchange/img/favicon.ico);
+}
+
+#sites > li {
+    list-style: none;
+    margin: 0;
+
+    &:hover > li:hover {
+        background-color: #f5f5f5;
+    }
+
+    &.selected {
         background-color: #eee;
     }
 
-#sites:hover > li:hover {
-    background-color: #eee;
+    > a {
+        display: block;
+        .icon();
+    }
 }
 
 #tag-correlations {
@@ -106,7 +114,6 @@ input[type='text'] {
     }
 
     #tag-correlations tr > td > a {
-        color: inherit;
         display: inline-block;
         padding: 4px 6px;
         padding-right: 21px;

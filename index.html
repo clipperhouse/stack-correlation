@@ -7,7 +7,7 @@
     <meta name="description" content="A simple tool for exploring the associations between tags on Stack Exchange sites, such as Stack Overflow.">
     <meta name="author" content="Matt Sherman">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
-    <link href="css/site.min.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
     <link href="css/jquery-ui.css" rel="stylesheet" />
     <link rel="shortcut icon" href="//cdn.sstatic.net/stackexchange/img/favicon.ico">
 </head>
@@ -48,13 +48,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
     <script src="js/script.js"></script>
     <script id="correlations-tmpl" type="text/template">
-        {{#items}}
+        {{#correlations}}
         <tr>
             <td><a class="correlation" title="View correlations for “{{tag}}”" href="#{{site}}/{{tag}}">{{tag}}</a></td>
             <td class="c">{{correlation}}</td>
             <td class="q"><a target="_blank" title="View questions tagged “{{tag_current}}” and “{{tag}}”" href="{{url}}"><img src="{{favicon}}" /></a></td>
         </tr>
-        {{/items}}
+        {{/correlations}}
     </script>
     <script type="text/javascript">
 
