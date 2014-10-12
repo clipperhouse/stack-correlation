@@ -28,7 +28,7 @@ var urls = {
 		return '//api.stackexchange.com/2.2/tags?pagesize=16&order=desc&sort=popular&inname=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
 	},
 	api_tags_popular: function(site) {
-		return '//api.stackexchange.com/2.2/tags?pagesize=4&order=desc&sort=popular&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
+		return '//api.stackexchange.com/2.2/tags?pagesize=5&order=desc&sort=popular&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
 	},
 	api_tag_count: function(site, tag) {
 		return '//api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!LQa0AXyWeCS0eBBhfz)UnE&key=' + api_key;
