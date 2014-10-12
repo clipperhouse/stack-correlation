@@ -195,7 +195,7 @@ $(function() {
 				var ex = data.items[0].excerpt;
 				var sentences = ex.split('. ');
 				var text = sentences.length > 1 ? sentences[0] + '.' : ex;
-				var a = $('<a>').attr('href', 'https://en.wikipedia.org/w/index.php?search=' + encodeURIComponent(tag.replace(/\-/g, ' '))).attr('target', '_blank').html('Search Wikipedia...');
+				var a = $('<a>').attr('href', 'https://en.wikipedia.org/w/index.php?search=' + encodeURIComponent(tag.replace(/\-/g, ' ').replace('#', ' sharp'))).attr('target', '_blank').html('Search Wikipedia...');
 				wiki.html(text + ' ').append(a);
 			} else {
 				wiki.html('');
