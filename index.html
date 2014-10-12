@@ -12,15 +12,9 @@
     <link rel="shortcut icon" href="//cdn.sstatic.net/stackexchange/img/favicon.ico">
 </head>
 <body>
-    <div id="right">
-        <p id="se"><strong>Select a Stack Exchange site:</strong></p>
-        <ul id="sites"></ul>
-        <div class="fadeout"></div>
-    </div>
-
-    <h1><span id="site-name"></span></h1><br />
-
     <div id="left">
+        <h1><span id="site-name"></span></h1><br />
+    
         <p>
             <input type="text" name="tag" id="tag" />
             <span id="popular"></span>
@@ -32,8 +26,13 @@
             “Correlation” is coincidence of tags on questions. Note that correlations are asymmetric:
             e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
         </p>
-        <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side). &nbsp; <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a></p>
-        
+        <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side). &nbsp; <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a></p>        
+    </div>
+
+    <div id="right">
+        <p id="se"><strong>Select a Stack Exchange site:</strong></p>
+        <ul id="sites"></ul>
+        <div class="fadeout"></div>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
