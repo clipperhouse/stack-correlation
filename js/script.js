@@ -224,7 +224,7 @@ $(function() {
 			});
 		},
 		select: function(event, ui) {
-			updateState(ui.item.spec);
+			location.href = '#' + ui.item.spec;
 		},
 		autoFocus: true,
 		delay: 200
