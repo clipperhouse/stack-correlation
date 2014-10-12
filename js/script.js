@@ -7,12 +7,12 @@ var api_cache = {};
 getJSONCached = function(url, callback) {
 	var cache = api_cache[url];
 	if (cache != null) {
-		return callback(cache);
+		return callback ? callback(cache) : null;
 	}
 
 	var continuation = function(json) {
 		api_cache[url] = json;
-		return callback(json);
+		return callback ? callback(json) : null;
 	};
 
 	return $.getJSON(url + '&callback=?', continuation);
@@ -260,4 +260,27 @@ $(function() {
 		autoFocus: true,
 		delay: 200
 	});
+
+	doc.on('mouseover', 'a.tag', function() {
+		preFetchTag($(this));
+	});
+
+	var preFetchTag = function(a) {
+		var href = a.attr('href');
+		var parts = href.split('#');
+		if (parts.length < 2) {
+			return;
+		}
+
+		var hash = parts[1];
+		parts = hash.split('/');
+		if (parts.length < 2) {
+			return;
+		}
+
+		var site = getMenuItem(parts[0]).data('site');
+		var tag = parts[1];
+		getJSONCached(urls.api_tag_count(site, tag), null);
+		getJSONCached(urls.api_tags_related(site, tag), null);
+	};
 });
