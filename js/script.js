@@ -132,7 +132,7 @@ $(function() {
 		}
 
 		// choose default
-		var li = sites.children('li').eq(0);
+		var li = sites.children().eq(0);
 		var site = li.data('site');
 		updateState(site.api_site_parameter);
 	};
@@ -141,7 +141,7 @@ $(function() {
 	doc.on('sites:load', pop);
 
 	var getMenuItem = function(api_site_parameter) {
-		var lis = sites.children('a');
+		var lis = sites.children();
 
 		for (var i = 0; i < lis.length; i++) {
 			var li = $(lis[i]);
