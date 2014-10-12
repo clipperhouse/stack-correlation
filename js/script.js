@@ -119,12 +119,6 @@ $(function() {
 		}
 
 		tagInput.focus().select();
-
-		// does the hash need updating?
-		var hash = location.hash.replace(/^#+/, '');
-		if (spec !== hash) {
-			history.pushState(null, null, '#' + spec);
-		}
 	};
 
 	var pop = function() {
