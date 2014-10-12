@@ -36,10 +36,12 @@ var urls = {
 	api_tags_related: function(site, tag) {
 		return '//api.stackexchange.com/2.2/tags/' + encodeURIComponent(tag) + '/related?site=' + site.api_site_parameter + '&key=' + api_key + '&pagesize=10&filter=!n9Z4Y*b7KJ';
 	},
-	api_tags_wiki: function(site, tags) {
-		var t = tags.join(';');
-		return '//api.stackexchange.com/2.2/tags/' + t + '/wikis?site=' + site.api_site_parameter + '&filter=!--fI)Zh5Td-h' + '&key=' + api_key;
-	}
+	site_tag: function(site, tag) {
+		return site.site_url.replace('http:', '') + '/tags/' + encodeURIComponent(tag) + '/info';
+	},
+	wikipedia_search: function(tag) {
+		return '//en.wikipedia.org/w/index.php?search=' + encodeURIComponent(tag.replace(/\-/g, ' ').replace('#', ' sharp'));
+	},
 };
 
 var round = function(num, dec) {
@@ -83,11 +85,13 @@ $(function() {
 		});
 	})();
 
-	var header = $('#site-name');
+	var header = $('h1');
+	var siteName = $('.site-name');
+	var tagName = $('.tag-name');
 	var tagCorrelations = $('#tag-correlations');
 	var title = $('title');
 	var popular = $('#popular');
-	var wiki = $('#tag-wiki');
+	var links = $('#tag-links');
 
 	// spec takes the form of site[/tag]
 	var updateState = function(spec) {
@@ -122,8 +126,9 @@ $(function() {
 		} else {
 			// clear it out
 			tagCorrelations.html('');
-			wiki.html('');
+			links.hide();
 			tagInput.val('').attr('placeholder', 'type a tag name here');
+			popular.show();
 		}
 
 		tagInput.focus().select();
@@ -166,7 +171,8 @@ $(function() {
 
 		// update header
 		var site = li.data('site');
-		header.html(site.name + ' tag correlations').css('background-image', 'url(' + site.favicon_url.replace('http:', '') + ')');
+		siteName.html(site.name);
+		header.css('background-image', 'url(' + site.favicon_url.replace('http:', '') + ')');
 	};
 
 	var loadPopularTags = function(site) {
@@ -180,7 +186,7 @@ $(function() {
 				item = items[i];
 				var a = $('<a>').attr('href', '#' + state.site.api_site_parameter + '/' + item.name)
 					.addClass('tag').html(item.name);
-				popular.append(a);
+				popular.append(a).append('&nbsp;');
 			}
 		});
 	};
@@ -189,22 +195,13 @@ $(function() {
 		getJSONCached(urls.api_tag_count(site, tag), function(data) {
 			loadCorrelations(site, tag, data.total);
 		});
-
-		getJSONCached(urls.api_tags_wiki(site, [encodeURIComponent(tag)]), function(data) {
-			if (data.items.length && data.items[0].excerpt) {
-				var ex = data.items[0].excerpt;
-				var sentences = ex.split('. ');
-				var text = sentences.length > 1 ? sentences[0] + '.' : ex;
-				var a = $('<a>').attr('href', 'https://en.wikipedia.org/w/index.php?search=' + encodeURIComponent(tag.replace(/\-/g, ' ').replace('#', ' sharp'))).attr('target', '_blank').html('Search Wikipedia...');
-				wiki.html(text + ' ').append(a);
-			} else {
-				wiki.html('');
-			}
-		});
 	};
 
+	var soLink = links.find('a#so');
+	var wikipediaLink = links.find('a#wikipedia');
+
 	var loadCorrelations = function(site, tag, total) {
-		return getJSONCached(urls.api_tags_related(site, tag), function(data) {
+		getJSONCached(urls.api_tags_related(site, tag), function(data) {
 			var correlations = [];
 			var items = data.items;
 			var len = items.length;
@@ -228,6 +225,11 @@ $(function() {
 			var html = Mustache.to_html(template, obj);
 
 			tagCorrelations.hide().html(html).fadeIn('fast');
+			popular.hide();
+			tagName.html(tag);
+			soLink.attr('href', urls.site_tag(site, tag));
+			wikipediaLink.attr('href', urls.wikipedia_search(tag));
+			links.show();
 		});
 	};
 

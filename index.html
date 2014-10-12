@@ -13,13 +13,19 @@
 </head>
 <body>
     <div id="left">
-        <h1><span id="site-name"></span></h1>
+        <h1><span class="site-name">Stack Overflow</span> tag correlations</h1>
     
-        <p>
-            <input type="text" name="tag" id="tag" />
+        <p id="form">
+            <input type="text" name="tag" id="tag" /><br />
             <span id="popular"></span>
         </p>
-        <div id="tag-wiki"></div>
+
+        <p id="tag-links">
+            <a id="so" class="up-and-out" target="_blank">View <span class="tag-name tag"></span> on <span class="site-name">Stack Overflow</span></a>
+            &nbsp;
+            <a id="wikipedia" class="up-and-out" target="_blank">Search Wikipedia</a>
+        </p>
+        
         <div id="tag-correlations"></div>
 
         <p>

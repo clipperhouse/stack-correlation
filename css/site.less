@@ -9,8 +9,9 @@ body {
 }
 
 h1 {
-    margin: 1em 0;
+    margin: 0.8em 0;
     font-weight: normal;
+    line-height: 32px;
 }
 
 p {
@@ -30,7 +31,7 @@ a {
     color: #3e6d8e;
     background-color: #e0eaf1;
     padding: 4px 6px;
-    margin: 4px 6px 4px 0;
+    margin: 4px 0;
     text-decoration: none;
     line-height: 1.4;
     white-space: nowrap;
@@ -38,11 +39,11 @@ a {
 }
 
 input[type='text'] {
-    width: 400px;
+    width: 360px;
     padding: 8px;
     font-size: 16px;
     display: inline-block;
-    margin-right: 2em;
+    margin-right: 3em;
     border: 1px solid #eee;
     border-radius: 4px;
 }
@@ -50,15 +51,19 @@ input[type='text'] {
 #popular {
     display: inline-block;
     position: relative;
-    top: -4px;
     font-size: 85%;
+    margin-top: 1em;
 }
 
-#tag-wiki {
-    font-style: italic;
+#tag-links, #form {
+    float: left;
 }
 
-#site-name {
+.clear-left {
+    clear: left;
+}
+
+h1 {
     padding: 0 0 0 42px;
     background-repeat: no-repeat;
     background-position: left center;
@@ -115,8 +120,16 @@ input[type='text'] {
 
 
 #tag-correlations {
+    clear: left;
     height: 500px;
     margin-bottom: 1.5em;
+}
+
+.up-and-out {
+    background-image: url(up-and-out.png);
+    background-position: right center;
+    padding-right: 10px;
+    background-repeat: no-repeat;
 }
 
 a#github {
