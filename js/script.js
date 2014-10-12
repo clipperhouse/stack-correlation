@@ -1,6 +1,5 @@
 $.ajaxSetup({
-	cache: true,
-	jsonpCallback: 'jsonpCallback'
+	cache: true
 });
 
 var api_cache = {};
@@ -28,11 +27,14 @@ var urls = {
 	api_tags: function(site, tag) {
 		return '//api.stackexchange.com/2.2/tags?pagesize=16&order=desc&sort=popular&inname=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
 	},
+	api_tags_popular: function(site) {
+		return '//api.stackexchange.com/2.2/tags?pagesize=4&order=desc&sort=popular&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
+	},
 	api_tag_count: function(site, tag) {
 		return '//api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!LQa0AXyWeCS0eBBhfz)UnE&key=' + api_key;
 	},
 	api_tags_related: function(site, tag) {
-		return '//api.stackexchange.com/2.2/tags/' + encodeURIComponent(tag) + '/related?site=' + site.api_site_parameter + '&key=' + api_key + '&pagesize=15&filter=!n9Z4Y*b7KJ';
+		return '//api.stackexchange.com/2.2/tags/' + encodeURIComponent(tag) + '/related?site=' + site.api_site_parameter + '&key=' + api_key + '&pagesize=14&filter=!n9Z4Y*b7KJ';
 	}
 };
 
@@ -81,8 +83,9 @@ $(function() {
 	})();
 
 	var header = $('#site-name');
-	var tagCorrelations = $('#tag-correlations > tbody');
+	var tagCorrelations = $('#tag-correlations');
 	var title = $('title');
+	var popular = $('#popular');
 
 	// spec takes the form of site[/tag]
 	var updateState = function(spec) {
@@ -103,6 +106,8 @@ $(function() {
 		var site = li.data('site');
 		state.site = site;
 
+		loadPopularTags(site);
+
 		// is there a tag?
 		var tag;
 		if (spec.length > 1) {
@@ -115,7 +120,7 @@ $(function() {
 		} else {
 			// clear it out
 			tagCorrelations.html('');
-			tagInput.val('');
+			tagInput.val('').attr('placeholder', 'type a tag name here');
 		}
 
 		tagInput.focus().select();
@@ -161,10 +166,26 @@ $(function() {
 		header.html(site.name + ' tag correlations').css('background-image', 'url(' + site.favicon_url.replace('http:', '') + ')');
 	};
 
+	var loadPopularTags = function(site) {
+		getJSONCached(urls.api_tags_popular(site), function(data) {
+			popular.html('Popular: &nbsp;');
+
+			var items = data.items;
+			var len = items.length;
+
+			for (var i = 0; i < len; i++) {
+				item = items[i];
+				var a = $('<a>').attr('href', '#' + state.site.api_site_parameter + '/' + item.name)
+					.addClass('tag').html(item.name);
+				popular.append(a);
+			}
+		});
+	};
+
 	var loadTag = function(site, tag) {
 		getJSONCached(urls.api_tag_count(site, tag), function(data) {
 			loadCorrelations(site, tag, data.total);
-		})
+		});
 	};
 
 	var loadCorrelations = function(site, tag, total) {
@@ -180,7 +201,7 @@ $(function() {
 					site: site.api_site_parameter,
 					favicon: site.favicon_url.replace('http:', ''),
 					url: site.site_url.replace('http:', '') + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),
-					correlation: round(item.count / total, 2)
+					correlation: i == 0 ? ('appears on ' + round(100 * item.count / total, 0) + '% of ‘' + tag + '’ questions') : (round(100 * item.count / total, 0) + '%')
 				});
 			}
 

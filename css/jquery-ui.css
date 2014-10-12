@@ -841,6 +841,7 @@ body .ui-tooltip {
 .ui-menu .ui-menu-item {
     color: #3e6d8e;
     padding: 6px;
+    font-size: 16px;
 }
 
 .ui-menu .ui-state-focus,
