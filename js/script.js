@@ -66,15 +66,12 @@ $(function() {
 					site.favicon_url = site.favicon_url.replace('http:', '');
 
 					var a = $('<a>')
+						.data('site', site)
 						.attr('href', '#' + site.api_site_parameter)
 						.html(site.name)
 						.css('background-image', 'url(' + site.favicon_url + ')');
 
-					var li = $('<li/>')
-						.append(a)
-						.data('site', site);
-
-					sites.append(li);
+					sites.append(a);
 				}
 			}
 			sites.show();
@@ -144,7 +141,7 @@ $(function() {
 	doc.on('sites:load', pop);
 
 	var getMenuItem = function(api_site_parameter) {
-		var lis = sites.children('li');
+		var lis = sites.children('a');
 
 		for (var i = 0; i < lis.length; i++) {
 			var li = $(lis[i]);

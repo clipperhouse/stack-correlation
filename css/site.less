@@ -1,7 +1,19 @@
 body {
-    margin: 6px 16px;
+    margin: 0 1em;
     -webkit-text-size-adjust: 100%;
     font-size: 15px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 20px;
+    color: #333333;
+    background-color: #ffffff;
+}
+
+h1 {
+    margin: 1em 0;
+}
+
+p {
+    margin: 0.9em 0;
 }
 
 a {
@@ -30,6 +42,8 @@ input[type='text'] {
     font-size: 16px;
     display: inline-block;
     margin-right: 2em;
+    border: 1px solid #eee;
+    border-radius: 4px;
 }
 
 #popular {
@@ -42,10 +56,7 @@ input[type='text'] {
 #site-name {
     padding: 0 0 0 42px;
     background-repeat: no-repeat;
-    background-position: left 5px;
-    -moz-background-size: 32px 32px;
-    -o-background-size: 32px 32px;
-    -webkit-background-size: 32px 32px;
+    background-position: left center;
     background-size: 32px 32px;
 }
 
@@ -67,21 +78,16 @@ input[type='text'] {
     margin: 0 1em 3em 0;
     display: none;
 
-    > li {
-        list-style: none;
-        margin: 0;
+    > a {
+        display: block;
+        .icon();
 
-        &:hover > li:hover {
+        &:hover {
             background-color: #f5f5f5;
         }
 
         &.selected {
             background-color: #eee;
-        }
-
-        > a {
-            display: block;
-            .icon();
         }
     }
 }
@@ -104,7 +110,7 @@ input[type='text'] {
 
 
 #tag-correlations {
-    height: 475px;
+    height: 500px;
     margin-bottom: 1.5em;
 }
 

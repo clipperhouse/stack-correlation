@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple tool for exploring the associations between tags on Stack Exchange sites, such as Stack Overflow.">
     <meta name="author" content="Matt Sherman">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
     <link href="css/site.css" rel="stylesheet">
     <link href="css/jquery-ui.css" rel="stylesheet" />
     <link rel="shortcut icon" href="//cdn.sstatic.net/stackexchange/img/favicon.ico">
 </head>
 <body>
     <div id="left">
-        <h1><span id="site-name"></span></h1><br />
+        <h1><span id="site-name"></span></h1>
     
         <p>
             <input type="text" name="tag" id="tag" />
@@ -30,7 +30,7 @@
 
     <div id="right">
         <p id="se"><strong>Select a Stack Exchange site:</strong></p>
-        <ul id="sites"></ul>
+        <div id="sites"></div>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
