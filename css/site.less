@@ -64,17 +64,48 @@ input[type='text'] {
     float: right;
     width: 320px;
     margin-left: 30px;
+    position: relative;
 }
 
 #sites {
     border: 1px solid #ccc;
+    margin: 0;
     display: none;
-    margin: 0 0 24px 0;
+    height: 700px;
+    overflow-y: scroll;
+    position: relative;
+}
+
+.fadeout {
+    position: absolute; 
+    bottom: 0;
+    height: 6em;
+    width: 400px;
+    background: -webkit-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    ); 
+    background-image: -moz-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: -o-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+    background-image: -ms-linear-gradient(
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
 }
 
 .icon() {
     margin: 0;
-    padding: 6px 6px 6px 28px;
+    padding: 7px 6px 6px 28px;
     background-repeat: no-repeat;
     background-position: 6px center;
     -moz-background-size: 16px 16px;
