@@ -35,6 +35,10 @@ var urls = {
 	},
 	api_tags_related: function(site, tag) {
 		return '//api.stackexchange.com/2.2/tags/' + encodeURIComponent(tag) + '/related?site=' + site.api_site_parameter + '&key=' + api_key + '&pagesize=10&filter=!n9Z4Y*b7KJ';
+	},
+	api_tags_wiki: function(site, tags) {
+		var t = tags.join(';');
+		return '//api.stackexchange.com/2.2/tags/' + t + '/wikis?site=' + site.api_site_parameter + '&filter=!--fI)Zh5Td-h' + '&key=' + api_key;
 	}
 };
 
@@ -83,6 +87,7 @@ $(function() {
 	var tagCorrelations = $('#tag-correlations');
 	var title = $('title');
 	var popular = $('#popular');
+	var wiki = $('#tag-wiki');
 
 	// spec takes the form of site[/tag]
 	var updateState = function(spec) {
@@ -117,6 +122,7 @@ $(function() {
 		} else {
 			// clear it out
 			tagCorrelations.html('');
+			wiki.html('');
 			tagInput.val('').attr('placeholder', 'type a tag name here');
 		}
 
@@ -183,6 +189,18 @@ $(function() {
 		getJSONCached(urls.api_tag_count(site, tag), function(data) {
 			loadCorrelations(site, tag, data.total);
 		});
+
+		getJSONCached(urls.api_tags_wiki(site, [encodeURIComponent(tag)]), function(data) {
+			if (data.items.length && data.items[0].excerpt) {
+				var ex = data.items[0].excerpt;
+				var sentences = ex.split('. ');
+				var text = sentences.length > 1 ? sentences[0] + '.' : ex;
+				var a = $('<a>').attr('href', 'https://en.wikipedia.org/w/index.php?search=' + encodeURIComponent(tag.replace(/\-/g, ' '))).attr('target', '_blank').html('Search Wikipedia...');
+				wiki.html(text + ' ').append(a);
+			} else {
+				wiki.html('');
+			}
+		});
 	};
 
 	var loadCorrelations = function(site, tag, total) {
@@ -210,7 +228,6 @@ $(function() {
 			var html = Mustache.to_html(template, obj);
 
 			tagCorrelations.hide().html(html).fadeIn('fast');
-			return tagInput.focus().select();
 		});
 	};
 
