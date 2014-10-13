@@ -1,40 +1,42 @@
+// set up json & cache
+var api_cache = {};
+
 $.ajaxSetup({
 	cache: true
 });
 
-var api_cache = {};
-
 getJSONCached = function(url, callback) {
 	var cache = api_cache[url];
 	if (cache != null) {
-		return callback ? callback(cache) : null;
+		return callback && callback(cache);
 	}
 
 	var continuation = function(json) {
 		api_cache[url] = json;
-		return callback ? callback(json) : null;
+		return callback && callback(json);
 	};
 
 	return $.getJSON(url + '&callback=?', continuation);
 };
 
-var api_key = 'zg)SFUiAw3KznQKAw)AXzQ((';
+var api_base_url = '//api.stackexchange.com/2.2/';
+var api_key_param = '&key=zg)SFUiAw3KznQKAw)AXzQ((';
 
 var urls = {
 	api_sites: function(page) {
-		return '//api.stackexchange.com/2.2/sites?page=' + page + '&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF&key=' + api_key;
+		return api_base_url + 'sites?page=' + page + '&pagesize=100&filter=!0U12eE-l6vTXjGb9hog*DtBLF' + api_key_param;
 	},
 	api_tags: function(site, tag) {
-		return '//api.stackexchange.com/2.2/tags?pagesize=16&order=desc&sort=popular&inname=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
+		return api_base_url + 'tags?pagesize=16&order=desc&sort=popular&inname=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo' + api_key_param;
 	},
 	api_tags_popular: function(site) {
-		return '//api.stackexchange.com/2.2/tags?pagesize=5&order=desc&sort=popular&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo&key=' + api_key;
+		return api_base_url + 'tags?pagesize=5&order=desc&sort=popular&site=' + site.api_site_parameter + '&filter=!*M27MxijjqVg4jGo' + api_key_param;
 	},
 	api_tag_count: function(site, tag) {
-		return '//api.stackexchange.com/2.2/questions?order=desc&sort=activity&tagged=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!LQa0AXyWeCS0eBBhfz)UnE&key=' + api_key;
+		return api_base_url + 'questions?order=desc&sort=activity&tagged=' + encodeURIComponent(tag) + '&site=' + site.api_site_parameter + '&filter=!LQa0AXyWeCS0eBBhfz)UnE' + api_key_param;
 	},
 	api_tags_related: function(site, tag) {
-		return '//api.stackexchange.com/2.2/tags/' + encodeURIComponent(tag) + '/related?site=' + site.api_site_parameter + '&key=' + api_key + '&pagesize=10&filter=!n9Z4Y*b7KJ';
+		return api_base_url + 'tags/' + encodeURIComponent(tag) + '/related?site=' + site.api_site_parameter + '&pagesize=10&filter=!n9Z4Y*b7KJ' + api_key_param;
 	},
 	site_tag: function(site, tag) {
 		return site.site_url.replace('http:', '') + '/tags/' + encodeURIComponent(tag) + '/info';
@@ -55,232 +57,255 @@ var round = function(num, dec) {
 };
 
 var state = {};
+var sites = {};
 
-$(function() {
-	var doc = $(document);
-	var sites = $('#sites');
+var doc = $(document);
 
-	// start by loading all the sites
-	(function() {
-		getJSONCached(urls.api_sites(1), function(data) {
-			var items = data.items;
-			var len = items.length;
-			for (var i = 0; i < len; i++) {
-				var site = items[i];
-				if (site.site_type === 'main_site' && site.name.indexOf('Meta') !== 0 && site.site_state === 'normal') {
-					// scheme-relative url
-					site.favicon_url = site.favicon_url.replace('http:', '');
+// start by loading all the sites
+doc.on('ready', function() {
+	getJSONCached(urls.api_sites(1), function(data) {
+		console.log(data);
+		var items = data.items;
+		var len = items.length;
+		for (var i = 0; i < len; i++) {
+			var site = items[i];
+			if (site.site_type === 'main_site' && site.name.indexOf('Meta') !== 0 && site.site_state === 'normal') {
+				// scheme-relative url
+				site.favicon_url = site.favicon_url.replace('http:', '');
 
-					var a = $('<a>')
-						.data('site', site)
-						.attr('href', '#' + site.api_site_parameter)
-						.html(site.name)
-						.css('background-image', 'url(' + site.favicon_url + ')');
-
-					sites.append(a);
-				}
+				sites[site.api_site_parameter] = site;
 			}
-			sites.show();
-			doc.trigger('sites:load');
-		});
-	})();
-
-	var header = $('h1');
-	var siteName = $('.site-name');
-	var tagName = $('.tag-name');
-	var tagCorrelations = $('#tag-correlations');
-	var title = $('title');
-	var popular = $('#popular');
-	var links = $('#tag-links');
-
-	// spec takes the form of site[/tag]
-	var updateState = function(spec) {
-		var parts = spec.split('/');
-
-		var api_site_parameter = parts[0];
-
-		// ensure site UI state is correct
-		var li = getMenuItem(api_site_parameter);
-		if (li) {
-			setSiteUI(li);
-		} else {
-			// site is invalid, reset to nothing and bail
-			location.hash = '';
-			return;
 		}
+		doc.trigger('sites:load');
+	});
+});
 
-		var site = li.data('site');
-		state.site = site;
+var menu = $('#menu');
 
-		loadPopularTags(site);
-
-		// is there a tag?
-		var tag;
-		if (spec.length > 1) {
-			tag = parts[1];
+// build the right-hand sites menu
+doc.on('sites:load', function() {
+	for (var key in sites) {
+		if (sites.hasOwnProperty(key)) {
+			var site = sites[key];
+			var a = $('<a>')
+				.attr('href', '#' + site.api_site_parameter)
+				.attr('id', site.api_site_parameter)
+				.html(site.name)
+				.css('background-image', 'url(' + site.favicon_url + ')');
+			menu.append(a);
+			site.a = a;
 		}
+	}
+	menu.show();
+	doc.trigger('menu:load');
+});
 
-		if (tag) {
-			loadTag(site, tag)
-			tagInput.val(tag);
-		} else {
-			// clear it out
-			tagCorrelations.html('');
-			links.hide();
-			tagInput.val('').attr('placeholder', 'type a tag name here');
-			popular.show();
-		}
-
-		tagInput.focus().select();
-	};
-
-	var pop = function() {
-		// look for hash
-		if (location.hash.length > 1) {
-			var spec = location.hash.replace(/^#+/, '');
-			updateState(spec);
-			return;
-		}
-
-		// choose default
-		var li = sites.children().eq(0);
-		var site = li.data('site');
-		updateState(site.api_site_parameter);
-	};
-
+// once we have the menu, let's figure out state
+doc.on('menu:load', function() {
+	pop();
 	window.onpopstate = pop;
-	doc.on('sites:load', pop);
+});
 
-	var getMenuItem = function(api_site_parameter) {
-		var lis = sites.children();
+var pop = function() {
+	var spec = parseUrl(location.href);
 
-		for (var i = 0; i < lis.length; i++) {
-			var li = $(lis[i]);
-			var site = li.data('site');
-			if (site.api_site_parameter === api_site_parameter) {
-				return li;
-			}
+	if (spec.site) {
+		transition(spec);
+		return;
+	}
+
+	// choose default
+	spec.site = menu.children().eq(0).data('site');
+	transition(spec);
+};
+
+// returns a state object, as expressed by the url
+var parseUrl = function(url) {
+	var result = {};
+
+	// assumes a hash
+	var parts = url.split('#');
+	if (parts.length < 2) {
+		return result;
+	}
+
+	var hash = parts[1];
+	parts = hash.split('/');
+
+	spec.a = getMenuItem(parts[0])
+	if (spec.a) {
+		spec.site = spec.a.data('site');
+	} else {
+		// load default
+	}
+	spec.site = a ? a.data('site') : null;
+
+	if (parts.length > 1) {
+		spec.tag = parts[1];
+	}
+
+	return spec;
+};
+
+var header = $('h1');
+var siteName = $('.site-name');
+var tagName = $('.tag-name');
+var tagCorrelations = $('#tag-correlations');
+var title = $('title');
+var popular = $('#popular');
+var links = $('#tag-links');
+
+var transition = function(spec) {
+	setSiteUI(spec.site);
+
+	state.site = spec.site;
+
+	loadPopularTags(site);
+
+	if (spec.tag) {
+		loadTag(site, tag)
+		tagInput.val(tag);
+	} else {
+		// clear it out
+		tagInput.val('').attr('placeholder', 'type a tag name here');
+		tagCorrelations.html('');
+		links.hide();
+		popular.show();
+	}
+
+	tagInput.focus().select();
+};
+
+var getMenuItem = function(api_site_parameter) {
+	var items = menu.children();
+
+	for (var i = 0; i < items.length; i++) {
+		var item = $(items[i]);
+		var site = items.data('site');
+		if (site.api_site_parameter === api_site_parameter) {
+			return item;
+		}
+	}
+
+	// if nothing matches, fall back to first as a default
+	return items.first();
+};
+
+var setSiteUI = function(li) {
+	// select menu item
+	li.addClass('selected').siblings().removeClass('selected');
+
+	// update header
+	var site = li.data('site');
+	siteName.html(site.name);
+	header.css('background-image', 'url(' + site.favicon_url.replace('http:', '') + ')');
+};
+
+var loadPopularTags = function(site) {
+	getJSONCached(urls.api_tags_popular(site), function(data) {
+		popular.html('Popular: &nbsp;');
+
+		var items = data.items;
+		var len = items.length;
+
+		for (var i = 0; i < len; i++) {
+			item = items[i];
+			var a = $('<a>').attr('href', '#' + state.site.api_site_parameter + '/' + item.name)
+				.addClass('tag').html(item.name);
+			popular.append(a).append('&nbsp;');
+		}
+	});
+};
+
+var loadTag = function(site, tag) {
+	getJSONCached(urls.api_tag_count(site, tag), function(data) {
+		loadCorrelations(site, tag, data.total);
+	});
+};
+
+var soLink = links.find('a#so');
+var wikipediaLink = links.find('a#wikipedia');
+
+var loadCorrelations = function(site, tag, total) {
+	getJSONCached(urls.api_tags_related(site, tag), function(data) {
+		var correlations = [];
+		var items = data.items;
+		var len = items.length;
+
+		for (var i = 0; i < len; i++) {
+			item = items[i];
+			correlations.push({
+				tag: item.name,
+				site: site.api_site_parameter,
+				favicon: site.favicon_url.replace('http:', ''),
+				url: site.site_url.replace('http:', '') + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),
+				correlation: i == 0 ? ('appears on ' + round(100 * item.count / total, 0) + '% of ‘' + tag + '’ questions') : (round(100 * item.count / total, 0) + '%')
+			});
 		}
 
-		return null;
-	};
+		var obj = {
+			'correlations': correlations
+		};
 
-	var setSiteUI = function(li) {
-		// select sites item
-		li.addClass('selected').siblings().removeClass('selected');
+		var template = $('#correlations-tmpl').html();
+		var html = Mustache.to_html(template, obj);
 
-		// update header
-		var site = li.data('site');
-		siteName.html(site.name);
-		header.css('background-image', 'url(' + site.favicon_url.replace('http:', '') + ')');
-	};
+		tagCorrelations.hide().html(html).fadeIn('fast');
+		popular.hide();
+		tagName.html(tag);
+		soLink.attr('href', urls.site_tag(site, tag));
+		wikipediaLink.attr('href', urls.wikipedia_search(tag));
+		links.show();
+	});
+};
 
-	var loadPopularTags = function(site) {
-		getJSONCached(urls.api_tags_popular(site), function(data) {
-			popular.html('Popular: &nbsp;');
+var tagInput = $('input[name=tag]');
 
+tagInput.autocomplete({
+	source: function(request, response) {
+		getJSONCached(urls.api_tags(state.site, request.term), function(data) {
+			var results = [];
 			var items = data.items;
 			var len = items.length;
 
 			for (var i = 0; i < len; i++) {
 				item = items[i];
-				var a = $('<a>').attr('href', '#' + state.site.api_site_parameter + '/' + item.name)
-					.addClass('tag').html(item.name);
-				popular.append(a).append('&nbsp;');
-			}
-		});
-	};
-
-	var loadTag = function(site, tag) {
-		getJSONCached(urls.api_tag_count(site, tag), function(data) {
-			loadCorrelations(site, tag, data.total);
-		});
-	};
-
-	var soLink = links.find('a#so');
-	var wikipediaLink = links.find('a#wikipedia');
-
-	var loadCorrelations = function(site, tag, total) {
-		getJSONCached(urls.api_tags_related(site, tag), function(data) {
-			var correlations = [];
-			var items = data.items;
-			var len = items.length;
-
-			for (var i = 0; i < len; i++) {
-				item = items[i];
-				correlations.push({
-					tag: item.name,
-					site: site.api_site_parameter,
-					favicon: site.favicon_url.replace('http:', ''),
-					url: site.site_url.replace('http:', '') + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),
-					correlation: i == 0 ? ('appears on ' + round(100 * item.count / total, 0) + '% of ‘' + tag + '’ questions') : (round(100 * item.count / total, 0) + '%')
+				results.push({
+					label: item.name,
+					value: item.name,
+					spec: state.site.api_site_parameter + '/' + item.name,
 				});
 			}
 
-			var obj = {
-				'correlations': correlations
-			};
-
-			var template = $('#correlations-tmpl').html();
-			var html = Mustache.to_html(template, obj);
-
-			tagCorrelations.hide().html(html).fadeIn('fast');
-			popular.hide();
-			tagName.html(tag);
-			soLink.attr('href', urls.site_tag(site, tag));
-			wikipediaLink.attr('href', urls.wikipedia_search(tag));
-			links.show();
+			response(results);
 		});
-	};
-
-	var tagInput = $('input[name=tag]');
-
-	tagInput.autocomplete({
-		source: function(request, response) {
-			getJSONCached(urls.api_tags(state.site, request.term), function(data) {
-				var results = [];
-				var items = data.items;
-				var len = items.length;
-
-				for (var i = 0; i < len; i++) {
-					item = items[i];
-					results.push({
-						label: item.name,
-						value: item.name,
-						spec: state.site.api_site_parameter + '/' + item.name,
-					});
-				}
-
-				response(results);
-			});
-		},
-		select: function(event, ui) {
-			location.href = '#' + ui.item.spec;
-		},
-		autoFocus: true,
-		delay: 200
-	});
-
-	doc.on('mouseover', 'a.tag', function() {
-		preFetchTag($(this));
-	});
-
-	var preFetchTag = function(a) {
-		var href = a.attr('href');
-		var parts = href.split('#');
-		if (parts.length < 2) {
-			return;
-		}
-
-		var hash = parts[1];
-		parts = hash.split('/');
-		if (parts.length < 2) {
-			return;
-		}
-
-		var site = getMenuItem(parts[0]).data('site');
-		var tag = parts[1];
-		getJSONCached(urls.api_tag_count(site, tag), null);
-		getJSONCached(urls.api_tags_related(site, tag), null);
-	};
+	},
+	select: function(event, ui) {
+		location.href = '#' + ui.item.spec;
+	},
+	autoFocus: true,
+	delay: 200
 });
+
+doc.on('mouseover', 'a.tag', function() {
+	preFetchTag($(this));
+});
+
+var preFetchTag = function(a) {
+	var href = a.attr('href');
+	var parts = href.split('#');
+	if (parts.length < 2) {
+		return;
+	}
+
+	var hash = parts[1];
+	parts = hash.split('/');
+	if (parts.length < 2) {
+		return;
+	}
+
+	var site = getMenuItem(parts[0]).data('site');
+	var tag = parts[1];
+	getJSONCached(urls.api_tag_count(site, tag), null);
+	getJSONCached(urls.api_tags_related(site, tag), null);
+};
