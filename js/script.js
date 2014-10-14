@@ -112,7 +112,7 @@
 						results.push({
 							label: item.name,
 							value: item.name,
-							spec: state.site.api_site_parameter + '/' + item.name,
+							href: '#' + state.site.api_site_parameter + '/' + encodeURIComponent(item.name),
 						});
 					}
 
@@ -120,7 +120,7 @@
 				});
 			},
 			select: function(event, ui) {
-				location.href = '#' + ui.item.spec;
+				location.href = ui.item.href;
 			},
 			autoFocus: true,
 			delay: 200
@@ -182,7 +182,7 @@
 		}
 
 		if (parts.length > 1) {
-			newState.tag = parts[1];
+			newState.tag = decodeURIComponent(parts[1]);
 		}
 
 		return newState;
@@ -226,7 +226,7 @@
 
 			for (var i = 0; i < len; i++) {
 				item = items[i];
-				var a = $('<a>').attr('href', '#' + state.site.api_site_parameter + '/' + item.name)
+				var a = $('<a>').attr('href', '#' + state.site.api_site_parameter + '/' + encodeURIComponent(item.name))
 					.addClass('tag').html(item.name);
 				popular.append(a).append('&nbsp;');
 			}
@@ -250,6 +250,7 @@
 				item = items[i];
 				correlations.push({
 					tag: item.name,
+					href: '#' + site.api_site_parameter + '/' + encodeURIComponent(item.name),
 					site: site.api_site_parameter,
 					favicon: site.favicon_url.replace('http:', ''),
 					url: site.site_url.replace('http:', '') + '/questions/tagged/' + encodeURIComponent(tag) + '+' + encodeURIComponent(item.name),

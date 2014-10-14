@@ -43,11 +43,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script.min.js"></script>
     <script id="correlations-tmpl" type="text/template">
         {{#correlations}}
         <p>
-            <a class="tag" title="View correlations for “{{tag}}”" href="#{{site}}/{{tag}}">{{tag}}</a>
+            <a class="tag" title="View correlations for “{{tag}}”" href="{{href}}">{{tag}}</a>
             <span class="c">{{correlation}}</span>
         </p>
         {{/correlations}}
