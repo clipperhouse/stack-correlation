@@ -88,7 +88,7 @@
 
 		// and get the elements
 		menu = $("#menu")
-		header = $('h1');
+		header = $('h1 > a');
 		tagInput = $('input[name=tag]');
 		siteName = $('.site-name');
 		tagName = $('.tag-name');
@@ -189,21 +189,22 @@
 	};
 
 	var transition = function(newState) {
-		setSiteUI(newState.site);
+		state = newState;
 
-		if (newState.tag) {
-			loadTag(newState.site, newState.tag)
-			tagInput.val(newState.tag);
+		setSiteUI(state.site);
+
+		if (state.tag) {
+			loadTag(state.site, state.tag)
+			tagInput.val(state.tag);
 		} else {
 			// clear it out
 			tagInput.val('').attr('placeholder', 'type a tag name here');
 			tagCorrelations.html('');
 			links.hide();
-			loadPopularTags(newState.site);
+			loadPopularTags(state.site);
 		}
 
 		tagInput.focus().select();
-		state = newState;
 	};
 
 	var setSiteUI = function(site) {
@@ -212,7 +213,8 @@
 
 		// update header
 		siteName.html(site.name);
-		header.css('background-image', 'url(' + site.favicon_url.replace('http:', '') + ')');
+		header.css('background-image', 'url(' + site.favicon_url + ')')
+			.attr('href', '#' + site.api_site_parameter);
 	};
 
 	var loadPopularTags = function(site) {
