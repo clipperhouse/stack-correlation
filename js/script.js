@@ -203,8 +203,6 @@
 			links.hide();
 			loadPopularTags(state.site);
 		}
-
-		tagInput.focus().select();
 	};
 
 	var setSiteUI = function(site) {
