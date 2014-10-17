@@ -274,6 +274,11 @@
 		});
 	};
 
+	doc.on('touchstart', 'a.tag', function() {
+		location.href = this.href;
+		return false;
+	});
+
 	doc.on('mouseover', 'a.tag', function() {
 		preFetchTag($(this));
 	});
