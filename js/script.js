@@ -109,6 +109,7 @@
 
 					for (var i = 0; i < len; i++) {
 						item = items[i];
+						if (endsWithNumeric.test(item.name)) continue;
 						results.push({
 							label: item.name,
 							value: item.name,
@@ -204,6 +205,8 @@
 			loadPopularTags(state.site);
 		}
 	};
+
+	var endsWithNumeric = /[0-9\-\.]+$/;
 
 	var setSiteUI = function(site) {
 		// select menu item
