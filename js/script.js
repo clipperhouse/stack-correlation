@@ -206,7 +206,7 @@
 		}
 	};
 
-	var endsWithNumeric = /[0-9\-\.]+$/;
+	var endsWithNumeric = /-?[0-9\.]+$/;
 
 	var setSiteUI = function(site) {
 		// select menu item
