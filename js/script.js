@@ -21,7 +21,7 @@
 		return $.getJSON(url + '&callback=?', continuation);
 	};
 
-	var api_base_url = '//api.stackexchange.com/2.2/';
+	var api_base_url = 'https://api.stackexchange.com/2.2/';
 	var api_key_param = '&key=zg)SFUiAw3KznQKAw)AXzQ((';
 
 	var urls = {
@@ -65,7 +65,7 @@
 	var doc = $(document);
 	var menu, header, siteName, tagName, tagCorrelations, title, popular, links, soLink, wikipediaLink, tagInput;
 
-	doc.on('ready', function() {
+	$(function() {
 		// start by loading all the sites
 		getJSONCached(urls.api_sites(1), function(data) {
 			var items = data.items;
@@ -246,6 +246,8 @@
 
 			for (var i = 0; i < len; i++) {
 				item = items[i];
+				// skip numeric versions of same
+				if (item.name == tag || !isNaN(item.name.replace(tag, ''))) continue;
 				correlations.push({
 					tag: item.name,
 					href: '#' + site.api_site_parameter + '/' + encodeURIComponent(item.name),
