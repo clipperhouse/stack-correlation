@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
+    <link rel="canonical" href="https://clipperhouse.com/stack-correlations/" />
+    <meta http-equiv="refresh" content="0;url=https://clipperhouse.com/stack-correlations/" />
     <title>Stack Exchange tag correlations</title>
     <meta name="viewport" content="width=1024, initial-scale=0.62">
     <meta name="description" content="A simple tool for exploring the associations between tags on Stack Exchange sites, such as Stack Overflow.">
@@ -11,32 +14,47 @@
     <link href="css/jquery-ui.css" rel="stylesheet" />
     <link rel="shortcut icon" href="https://cdn.sstatic.net/stackexchange/img/favicon.ico">
 </head>
+
 <body>
     <div id="left">
-        <h1><a><span class="site-name">Stack Overflow</span> tag correlations</a></h1>
-    
+        <h1>
+            <a>
+                <span class="site-name">Stack Overflow</span> tag correlations</a>
+        </h1>
+
         <p id="form">
-            <input type="text" name="tag" id="tag" /><br />
+            <input type="text" name="tag" id="tag" />
+            <br />
             <span id="popular"></span>
         </p>
 
         <p id="tag-links">
-            <a id="so" class="up-and-out" target="_blank">View <span class="tag-name tag"></span> on <span class="site-name">Stack Overflow</span></a>
+            <a id="so" class="up-and-out" target="_blank">View
+                <span class="tag-name tag"></span> on
+                <span class="site-name">Stack Overflow</span>
+            </a>
             &nbsp;
             <a id="wikipedia" class="up-and-out" target="_blank">Search Wikipedia</a>
         </p>
-        
+
         <div id="tag-correlations"></div>
 
         <p>
-            “Correlation” is coincidence of tags on questions. Note that correlations are asymmetric:
-            e.g., <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
+            “Correlation” is coincidence of tags on questions. Note that correlations are asymmetric: e.g.,
+            <a href="#stackoverflow/coffeescript">CoffeeScript</a> questions often involve
+            <a href="#stackoverflow/javascript">JavaScript</a>, but not vice versa.
         </p>
-        <p>Built by <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side). &nbsp; <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a></p>        
+        <p>Built by
+            <a href="http://clipperhouse.com/about/">Matt Sherman</a> using the
+            <a href="http://api.stackexchange.com">Stack Exchange API</a> (all client-side). &nbsp;
+            <a id="github" href="https://github.com/clipperhouse/stack-correlation">Source</a>
+        </p>
     </div>
 
     <div id="right">
-        <p id="se"><strong>Select a Stack Exchange site:</strong></p>
+        <p id="se">
+            <strong>Select a Stack Exchange site:</strong>
+        </p>
         <div id="menu"></div>
     </div>
 
@@ -67,4 +85,5 @@
 
     </script>
 </body>
+
 </html>
